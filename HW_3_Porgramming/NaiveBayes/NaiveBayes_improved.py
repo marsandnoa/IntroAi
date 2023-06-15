@@ -146,7 +146,7 @@ class NaiveBayesClassifier(object):
         neutralcon=[0 for i in range(len(self.V))]
         positivecon=[0 for i in range(len(self.V))]
         negativecon=[0 for i in range(len(self.V))]
-        alpha=0;
+        alpha=.25;
         for i in range(len(training_labels)):
             if(training_labels[i]==0):
                 for j in range(len(matrix[i])):
@@ -161,9 +161,9 @@ class NaiveBayesClassifier(object):
                     if(matrix[i][j]==1):
                         negativecon[j]=(negativecon[j]+1)
         for j in range(len(matrix[i])):
-            negativecon[j]=negativecon[j]/negative
-            positivecon[j]=positivecon[j]/positive
-            neutralcon[j]=neutralcon[j]/neutral
+            negativecon[j]=(negativecon[j]+alpha*negative)/(negative+20*alpha*negative)
+            positivecon[j]=(positivecon[j]+alpha*positive)/(positive+20*alpha*positive)
+            neutralcon[j]=(neutralcon[j]+alpha*neutral)/(neutral+20*alpha*neutral)
 
         self.conditional=[positivecon,neutralcon,negativecon]
         # You can use any data structure you want.
