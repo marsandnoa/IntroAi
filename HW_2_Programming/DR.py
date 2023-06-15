@@ -1,6 +1,8 @@
 import argparse
 import os
 import os.path as osp
+
+import numpy
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -212,10 +214,19 @@ def PCA(X, out_dim):
     X = np.copy(X)
     D = X.shape[0] # feature dimension
     N = X.shape[1] # number of data instances
-
     ### Your job 1 starts here ###
-    mu = ...
-    Sigma = ...
+
+    i=0;
+    holder=X.sum(axis=1)
+    while i<D:
+        holder[i]=holder[i]/N
+        i=i+1
+    mu=(X[:, 0].reshape(-1, 1))
+    i=0
+    while i<D:
+        mu[i]=holder[i]
+        i=i+1
+    Sigma =np.cov(X)
 
     ### Your job 1 ends here ###
 
@@ -271,7 +282,7 @@ def main(args):
         3. Useful tool: check the "np.matmul" function and the builtin "transpose()" function of a numpy array 
         4. Hint: Just one line of code
         """
-        new_X = ...
+        new_X = np.matmul(W.transpose(),(X-mu))
 
         ### Your job 2 ends here ###
 
